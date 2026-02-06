@@ -13,6 +13,13 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: lts/*
+      - name: Install Docker and Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker.io docker-compose
+      - name: Start application services
+        run: |
+          docker-compose up --build -d
       - name: Install dependencies
         run: npm ci
       - name: Install Playwright Test Runner
