@@ -13,10 +13,6 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: lts/*
-      - name: Install Docker and Docker Compose
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker docker-compose
       - name: Start application services
         run: |
           docker-compose up --build -d
@@ -26,6 +22,9 @@ jobs:
         run: npm install -D @playwright/test@latest
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
+      - name: Wait for application to be ready
+        run: |
+          npx wait-on http://localhost:3000
       - name: Run Playwright tests
         run: npx playwright test
       - uses: actions/upload-artifact@v5
